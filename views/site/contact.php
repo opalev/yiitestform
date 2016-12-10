@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-lg-5">
 
-                <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'contact-form', 'enableAjaxValidation' => true, 'enableClientValidation' => false]); ?>
 
                     <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
 
