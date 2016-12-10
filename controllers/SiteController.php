@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -113,7 +114,8 @@ class SiteController extends Controller
         } else {
             if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('contactFormSubmitted');
-
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $model->upload();
                 return $this->refresh();
             }
 

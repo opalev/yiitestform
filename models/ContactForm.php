@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -15,6 +16,7 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
+    public $imageFile;
 
     const SCENARIO_AJAX = 'ajax';
     const SCENARIO_SENT = 'sent';
@@ -31,6 +33,8 @@ class ContactForm extends Model
             ['email', 'email'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha', 'on' => self::SCENARIO_SENT],
+            // file upload
+            ['imageFile', 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, gif'],
         ];
     }
 
@@ -53,6 +57,7 @@ class ContactForm extends Model
             'subject' => 'Тема сообщения',
             'body' => 'Текст сообщения',
             'verifyCode' => 'Проверочный код',
+            'imageFile' => 'Загрузка файла',
         ];
     }
 
@@ -74,5 +79,15 @@ class ContactForm extends Model
             return true;
         }
         return false;
+    }
+
+    public function upload()
+    {
+        if ($this->validate() and $this->imageFile !== null) {
+            $this->imageFile->saveAs(__DIR__.'/../uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
