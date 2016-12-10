@@ -16,6 +16,8 @@ class ContactForm extends Model
     public $body;
     public $verifyCode;
 
+    const SCENARIO_AJAX = 'ajax';
+    const SCENARIO_SENT = 'sent';
 
     /**
      * @return array the validation rules.
@@ -24,12 +26,20 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', 'subject', 'body', 'verifyCode'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            //['verifyCode', 'captcha'],
+            ['verifyCode', 'captcha', 'on' => self::SCENARIO_SENT],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_AJAX] = ['name', 'subject', 'body'];
+        $scenarios[self::SCENARIO_SENT] = ['name', 'email', 'subject', 'body', 'verifyCode'];
+        return $scenarios;
     }
 
     /**

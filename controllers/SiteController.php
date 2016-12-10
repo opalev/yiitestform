@@ -108,6 +108,7 @@ class SiteController extends Controller
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+            $model->setScenario($model::SCENARIO_SENT);
             return ActiveForm::validate($model);
         } else {
             if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
