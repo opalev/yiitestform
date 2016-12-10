@@ -21,13 +21,13 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
+            Обратите внимание, что если вы включите отладчик Yii, вы должны иметь возможность
+            просматривать сообщения электронной почты на почтовой панели отладчика.
             <?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved as
-                a file under <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                Please configure the <code>useFileTransport</code> property of the <code>mail</code>
-                application component to be false to enable email sending.
+                Поскольку приложение находится в режиме разработки, электронная почта не отправляется,
+                но сохраняется в виде файла в <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
+                Пожалуйста, присвойте <code>false</code> свойству <code>useFileTransport</code> компонента <code>mail</code>,
+                чтобы включить отправку по электронной почте.
             <?php endif; ?>
         </p>
 
