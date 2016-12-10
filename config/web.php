@@ -45,6 +45,9 @@ $config = [
             ],
         ],
     ],
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'en-US', // !!! Базовый язык лудше оставить англисским
+    'timeZone' => 'Europe/Moscow',
     'params' => $params,
 ];
 
