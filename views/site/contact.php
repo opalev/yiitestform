@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
                     ]) ?>
 
-                    <?= $form->field($model, 'imageFile')->fileInput() ?>
+                    <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
                     <div class="form-group">
                         <?= Html::submitButton('Отправить сообщение', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>

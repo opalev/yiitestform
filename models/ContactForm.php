@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\web\UploadedFile;
+//use yii\web\UploadedFile;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -16,7 +16,7 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
-    public $imageFile;
+    public $imageFiles;
 
     const SCENARIO_AJAX = 'ajax';
     const SCENARIO_SENT = 'sent';
@@ -34,7 +34,7 @@ class ContactForm extends Model
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha', 'on' => self::SCENARIO_SENT],
             // file upload
-            ['imageFile', 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, gif'],
+            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, gif', 'maxFiles' => 0],
         ];
     }
 
@@ -57,7 +57,7 @@ class ContactForm extends Model
             'subject' => 'Тема сообщения',
             'body' => 'Текст сообщения',
             'verifyCode' => 'Проверочный код',
-            'imageFile' => 'Загрузка файла',
+            'imageFile' => 'Загрузка файлов',
         ];
     }
 
@@ -69,13 +69,15 @@ class ContactForm extends Model
     public function contact($email)
     {
         if ($this->validate()) {
-            Yii::$app->mailer->compose()
+            $mailer = Yii::$app->mailer->compose()
                 ->setTo([$this->email => $this->name])
                 ->setFrom($email)
                 ->setSubject($this->subject)
-                ->setTextBody($this->body)
-                ->attach($this->imageFile->tempName, ['fileName' => $this->imageFile->name, 'contentType' => $this->imageFile->type])
-                ->send();
+                ->setTextBody($this->body);
+            foreach ($this->imageFiles as $file) {
+                $mailer->attach($file->tempName, ['fileName' => $file->name, 'contentType' => $file->type]);
+            }
+            $mailer->send();
 
             return true;
         }

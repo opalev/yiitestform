@@ -113,7 +113,7 @@ class SiteController extends Controller
             return ActiveForm::validate($model);
         } else {
             if ($model->load(Yii::$app->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
                 if ($model->contact(Yii::$app->params['adminEmail'])) {
                     Yii::$app->session->setFlash('contactFormSubmitted');
                     return $this->refresh();
