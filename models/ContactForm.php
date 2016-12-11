@@ -74,20 +74,11 @@ class ContactForm extends Model
                 ->setFrom([$this->email => $this->name])
                 ->setSubject($this->subject)
                 ->setTextBody($this->body)
+                ->attach($this->imageFile->tempName, ['fileName' => $this->imageFile->name, 'contentType' => $this->imageFile->type])
                 ->send();
 
             return true;
         }
         return false;
-    }
-
-    public function upload()
-    {
-        if ($this->validate() and $this->imageFile !== null) {
-            $this->imageFile->saveAs(__DIR__.'/../uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-            return true;
-        } else {
-            return false;
-        }
     }
 }
